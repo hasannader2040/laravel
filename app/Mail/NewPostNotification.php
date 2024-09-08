@@ -13,14 +13,28 @@ class NewPostNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $post;
+
+
+
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($post)
     {
-        //
+        $this->post = $post;
+    }
+
+    public function build()
+    {
+        return $this->from('a.karknawi@syriastudents.org.tr') //ssb905364641894
+            ->to('hassannader2040@gmail.com')
+            ->subject('Your project has been done')
+            ->view('emails.new_post_notification');
+        //->attach(storage_path('app/path/to/your/file.pdf'));
     }
 
     /**

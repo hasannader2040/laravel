@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use App\Models\Category;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
 use App\Jobs\SendPostNotification;
+use App\Notifications\NewPostNotification;
 
 class PostController extends Controller
 {
@@ -59,7 +61,7 @@ class PostController extends Controller
         return view('edit-posts', ['post' => $post]);
     }
 
-    public function createPost(Request $request)  //database
+    public function createPost(Request $request)
     {
         $incomingFields = $request->validate([
             'title' => 'required',
@@ -74,11 +76,16 @@ class PostController extends Controller
 
         $post = Post::create($incomingFields);
 
-        // Send email to subscribers
-        dispatch(new SendPostNotification($post));
-
-        return redirect()->route('home');
+        // Send notification to all subscribers (adjust as needed)
+        $subscribers = Subscription::all();
+        foreach ($subscribers as $subscriber) {
+            $subscriber->notify(new NewPostNotification($post));
+        }
+        //exit();
+        return redirect('/home')->with('success', 'Post Created and Notifications Sent!');
     }
+
+
 
     //$posts = Post::paginate(10);
 

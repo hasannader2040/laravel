@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('subscriptions', function (Blueprint $table) {
-            $table->string('email');
+        Schema::table('users', function (Blueprint $table) {
+            $table->boolean('is_subscribed')->default(false);  // Add is_subscribed column with default value as false
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('subscriptions', function (Blueprint $table) {
-            //
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('is_subscribed');  // Remove the column if rolled back
         });
     }
 };

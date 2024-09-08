@@ -19,11 +19,11 @@
             </div>
 
             {{-- Step 1: Create the Subscription Form --}}
-            <form action="{{ route('subscribe') }}" method="POST">
+            {{-- <form action="{{ route('subscribe') }}" method="POST">
                 @csrf
                 <input type="email" name="email" placeholder="Enter your email" required>
                 <button type="submit">Subscribe</button>
-            </form>
+            </form> --}}
 
 
             <!-- Create Post Form -->
